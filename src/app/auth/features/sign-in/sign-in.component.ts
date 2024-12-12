@@ -46,9 +46,9 @@ export default class  SignInComponent {
     const {email, password}=this.form.value;
     if(!email || !password) return;
 
-    await this._authService.signUp({email, password}) ;
+    await this._authService.signIn({email, password}) ;
 
-    toast.success('El ususario fue creado correctamente');
+    toast.success('Ahora si tenemos que empesar');
 
     this._router.navigateByUrl('/tasks')
     }catch(error){

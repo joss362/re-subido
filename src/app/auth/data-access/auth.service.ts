@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import{Auth, createUserWithEmailAndPassword} from '@angular/fire/auth';
+import{Auth, createUserWithEmailAndPassword,signInWithEmailAndPassword} from '@angular/fire/auth';
 
 
 export interface User{
@@ -16,5 +16,8 @@ export class AuthService {
 
   signUp(User:User ){
     return createUserWithEmailAndPassword(this._auth, User.email, User.password);
+  }
+  signIn(user:User){
+    return signInWithEmailAndPassword(this._auth,user.email, user.password);
   }
 }
