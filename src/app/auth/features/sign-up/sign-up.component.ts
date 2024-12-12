@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {ReactiveFormsModule} from fromimport { hasEmailError } from '../../utils/validators';
+import {ReactiveFormsModule} from fromimportimport { AuthService } from '../../data-access/auth.service';
+ { hasEmailError } from '../../utils/validators';
  '@angular/forms';
 
 
@@ -18,6 +19,7 @@ interface FormSignUp {
 })
 export default class SignUpComponent {
   private _formBuilder = inject(FormBuilder);
+  private _authService=inject(AuthService); 
 
   isRequired(field: 'email' | 'password'){
     return isRequired(field, this.form);
@@ -34,11 +36,21 @@ export default class SignUpComponent {
     ]),
     password: this._formBuilder.control('',Validators.required)
   });
-  submit(){
+  async submit(){
     if(this.form.invalid) return;
+
+    try{
 
     const {email, password}=this.form.value;
     if(!email || !password) return;
-    console.log({email, password})
-  }
+
+    await this._authService.signUp({email, password}) 
+
+    toast.success('El ususario fue creado correctamente')
+    }catch(error){
+      TransformStream.error('Hubo algun error');
+      
+    }
+  } 
+
 }
