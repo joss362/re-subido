@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import {ReactiveFormsModule} from fromimportimport { AuthService } from '../../data-access/auth.service';
- { hasEmailError } from '../../utils/validators';
- '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {FormBuilder,FormControl,Validators,ReactiveFormsModule} from '@angular/forms';
+import { hasEmailError, isRequired } from '../../utils/validators';
+import { AuthService } from '../../data-access/auth.service';
+import{toast} from 'ngx-sonner';
+import{Router,RouterLink} from '@angular/router';
+
 
 
 
@@ -13,13 +16,15 @@ interface FormSignUp {
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,RouterLink],
   templateUrl: './sign-up.component.html',
   
 })
 export default class SignUpComponent {
   private _formBuilder = inject(FormBuilder);
   private _authService=inject(AuthService); 
+
+  private _router=inject(Router);
 
   isRequired(field: 'email' | 'password'){
     return isRequired(field, this.form);
@@ -44,9 +49,11 @@ export default class SignUpComponent {
     const {email, password}=this.form.value;
     if(!email || !password) return;
 
-    await this._authService.signUp({email, password}) 
+    await this._authService.signUp({email, password}) ;
 
-    toast.success('El ususario fue creado correctamente')
+    toast.success('El ususario fue creado correctamente');
+
+    this._router.navigateByUrl('/tasks')
     }catch(error){
       TransformStream.error('Hubo algun error');
       
