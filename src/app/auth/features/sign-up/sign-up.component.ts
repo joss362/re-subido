@@ -16,7 +16,7 @@ interface FormSignUp {
   
 })
 export default class SignUpComponent {
-  private _formBuilder = inject(FormnBuider);
+  private _formBuilder = inject(NonNullableFormBuilder);
 
   form =this._formBuilder.group<any>({
     email: this._formBuilder.control('',[
@@ -25,4 +25,11 @@ export default class SignUpComponent {
     ]),
     password: this._formBuilder.control('',Validators.required)
   });
+  submit(){
+    if(this.form.invalid) return;
+
+    const {email, password}=this.form.value;
+    if(!email || !password) return;
+    console.log({email, password})
+  }
 }
