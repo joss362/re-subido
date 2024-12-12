@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {ReactiveFormsModule} from from '@angular/forms';
+import {ReactiveFormsModule} from fromimport { hasEmailError } from '../../utils/validators';
+ '@angular/forms';
 
 
 
@@ -16,7 +17,15 @@ interface FormSignUp {
   
 })
 export default class SignUpComponent {
-  private _formBuilder = inject(NonNullableFormBuilder);
+  private _formBuilder = inject(FormBuilder);
+
+  isRequired(field: 'email' | 'password'){
+    return isRequired(field, this.form);
+  }
+
+  hasEmailError(){
+    return hasEmailError(this.form)
+  }
 
   form =this._formBuilder.group<any>({
     email: this._formBuilder.control('',[
